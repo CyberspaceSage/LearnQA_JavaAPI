@@ -1,16 +1,23 @@
+package Lesson_2;
+
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-public class GetRequestTest {
+public class ServerCodesTest {
     @Test
-    public void testGetTest(){
+    public void testRestAssured(){
+
         Response response = RestAssured
                 .given()
                 .relaxedHTTPSValidation()  // добавляем для обхода SSL-проверки
-                .get("https://playground.learnqa.ru/api/get_text")
+                .redirects()
+                .follow(true)
+                .when()
+                .get("https://playground.learnqa.ru/api/get_303")
                 .andReturn();
-        response.prettyPrint();
+
+        int statusCode = response.getStatusCode();
+        System.out.println(statusCode);
     }
 }
-

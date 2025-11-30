@@ -1,17 +1,18 @@
+package Lesson_1;
+
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
 
-public class HelloWorldTest {
+public class GetRequestTest {
     @Test
-    public void testHelloWorld(){
+    public void testGetTest(){
         Response response = RestAssured
                 .given()
                 .relaxedHTTPSValidation()  // добавляем для обхода SSL-проверки
-                .get("https://playground.learnqa.ru/api/hello")
+                .get("https://playground.learnqa.ru/api/get_text")
                 .andReturn();
         response.prettyPrint();
-
     }
 }
 
