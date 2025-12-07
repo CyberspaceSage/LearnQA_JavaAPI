@@ -30,10 +30,10 @@ public class Ex7LongRedirectTest {
                 break;
             }
             if (locationHeaders != null && !locationHeaders.isEmpty()){
-            System.out.println("Редирект на адрес: " + locationHeaders);
+                System.out.println("Редирект на адрес: " + locationHeaders);
                 url = locationHeaders;
                 count++;
-        } else {
+            } else {
                 System.out.println("Нет заголовка Location, цикл завершен");
                 break;
             }
