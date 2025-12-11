@@ -55,4 +55,21 @@ public class ApiCoreRequests {
         String url = "https://playground.learnqa.ru/api/user/";
         return makePostRequest(url, userData);
     }
+    @Step("Login user with data: {authData}")
+    public Response loginUser(Map<String, String> authData) {
+        String url = "https://playground.learnqa.ru/api/user/login";
+        return makePostRequest(url, authData);
+    }
+
+    @Step("Get user data by id: {userId} with cookies and token")
+    public Response getUserDataById(int userId, Map<String, String> cookies, String token) {
+        String url = "https://playground.learnqa.ru/api/user/" + userId;
+        return given()
+                .relaxedHTTPSValidation()
+                .filter(new AllureRestAssured())
+                .header(new Header("x-csrf-token", token))
+                .cookies(cookies)
+                .get(url)
+                .andReturn();
+    }
 }
