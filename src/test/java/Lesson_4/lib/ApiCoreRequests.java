@@ -90,4 +90,13 @@ public class ApiCoreRequests {
                 .put(url)
                 .andReturn();
     }
+    @Step("Make DELETE request to {url}")
+    public Response makeDeleteRequest(String url, String token, String cookie) {
+        return RestAssured
+                .given()
+                .relaxedHTTPSValidation()
+                .header("x-csrf-token", token)
+                .cookie("auth_sid", cookie)
+                .delete(url);
+    }
 }
