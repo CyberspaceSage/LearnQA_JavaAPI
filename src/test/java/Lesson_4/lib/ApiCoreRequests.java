@@ -2,8 +2,11 @@ package Lesson_4.lib;
 
 import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
+import io.restassured.RestAssured;
 import io.restassured.http.Header;
 import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
 import java.util.Map;
 import static io.restassured.RestAssured.given;
 
@@ -70,6 +73,21 @@ public class ApiCoreRequests {
                 .header(new Header("x-csrf-token", token))
                 .cookies(cookies)
                 .get(url)
+                .andReturn();
+    }
+    @Step("Make a PUT request to {url} with body: {body}, token: {token}, cookie: {cookie}")
+    public Response makePutRequest(String url, Map<String, String> body, String token, String cookie) {
+        RequestSpecification requestBuilder = RestAssured.given()
+                .relaxedHTTPSValidation()
+                .body(body);
+        if (token != null) {
+            requestBuilder.header("x-csrf-token", token);
+        }
+        if (cookie != null) {
+            requestBuilder.cookie("auth_sid", cookie);
+        }
+        return requestBuilder
+                .put(url)
                 .andReturn();
     }
 }
