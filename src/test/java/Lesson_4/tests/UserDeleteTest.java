@@ -3,7 +3,7 @@ import Lesson_4.lib.ApiCoreRequests;
 import Lesson_4.lib.DataGenerator;
 import Lesson_4.lib.Assertions;
 import Lesson_4.lib.BaseTestCase;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -12,6 +12,9 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("User Management")
+@Feature("User Deletion")
+@Owner("TestAutomationEngineer") // Полезно знать, кто ответственный за данный тест.
 public class UserDeleteTest extends BaseTestCase {
 
     ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
@@ -19,6 +22,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @DisplayName("Test that a user cannot delete himself via API")
     @Description("Verify that a user cannot delete their own account through the API, expecting a 400 response.")
+    @Severity(SeverityLevel.NORMAL) // Наобходимо знать уроверь критичности теста
     public void testUserCannotDeleteSelf() {
         Map<String, String> authData = new HashMap<>();
         authData.put("email", "vinkotov@example.com");
@@ -49,6 +53,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @DisplayName("Test that a user can delete their own account successfully")
     @Description("Create a new user, authenticate, delete the account, and verify deletion. Expect status code 200 and 404 on subsequent get request.")
+    @Severity(SeverityLevel.CRITICAL)
     public void testDeleteOwnUser() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -95,6 +100,7 @@ public class UserDeleteTest extends BaseTestCase {
     @Test
     @DisplayName("Test that a user cannot delete another user’s account")
     @Description("Create two users, login as the second, attempt to delete the first, expect failure with 400.")
+    @Severity(SeverityLevel.CRITICAL)
     public void testDeleteUserWithOtherUser() {
         Map<String, String> userData1 = DataGenerator.getRegistrationData();
 

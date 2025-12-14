@@ -4,7 +4,7 @@ import Lesson_4.lib.ApiCoreRequests;
 import Lesson_4.lib.DataGenerator;
 import Lesson_4.lib.Assertions;
 import Lesson_4.lib.BaseTestCase;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,12 +13,15 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Epic("User Management")
+@Feature("User Registration")
+@Owner("TestAutomationEngineer")
 public class UserRegisterTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
     @Test
     @DisplayName("Test creating a user with an existing email")
     @Description("This test verifies that the system does not allow creating a user with an email that already exists.")
+    @Severity(SeverityLevel.CRITICAL)
     public void testCreateUserWithExistingEmail() {
         String email = "vinkotov@example.com";
         Map<String, String> userData = new HashMap<>();
@@ -33,6 +36,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @DisplayName("Test successful user creation")
     @Description("This test checks that a user can be successfully created with valid data.")
+    @Severity(SeverityLevel.BLOCKER)
     public void testCreateUserSuccessfully() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         Response responseCreateAuth = apiCoreRequests.createUser(userData);
@@ -44,6 +48,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @DisplayName("Test creating a user with invalid email format")
     @Description("This test verifies that creation fails when email format is invalid.")
+    @Severity(SeverityLevel.NORMAL)
     public void testCreateUserWithInvalidEmail() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -58,6 +63,7 @@ public class UserRegisterTest extends BaseTestCase {
     @ParameterizedTest
     @DisplayName("Test creating a user with missing parameters")
     @Description("This test verifies that creating a user fails when required parameters are missing.")
+    @Severity(SeverityLevel.CRITICAL)
     @ValueSource(strings = {"lastName"})
     public void testCreateUserWithMissingParameter(String missingParam) {
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -71,6 +77,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @DisplayName("Test creating a user with a one-character first name")
     @Description("This test verifies that creating a user with a too-short first name fails.")
+    @Severity(SeverityLevel.NORMAL)
     public void testCreateUserWithOneCharName() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         String shortName = "A";
@@ -84,6 +91,7 @@ public class UserRegisterTest extends BaseTestCase {
     @Test
     @DisplayName("Test creating a user with an excessively long name")
     @Description("This test verifies that creating a user with a too-long first name fails.")
+    @Severity(SeverityLevel.NORMAL)
     public void testCreateUserWithLongName() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
         String longName = "a".repeat(251);

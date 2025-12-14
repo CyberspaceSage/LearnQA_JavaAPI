@@ -4,7 +4,7 @@ import Lesson_4.lib.ApiCoreRequests;
 import Lesson_4.lib.DataGenerator;
 import Lesson_4.lib.Assertions;
 import Lesson_4.lib.BaseTestCase;
-import io.qameta.allure.Description;
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -14,12 +14,16 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
+@Epic("User Management")
+@Feature("User Editing")
+@Owner("TestAutomationEngineer")
 public class UserEditTest extends BaseTestCase {
 
     ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
     @Test
     @DisplayName("Edit User Info: Change first name successfully")
     @Description("Generate and authenticate a user, then attempt to change the first name to a valid value and verify the change.")
+    @Severity(SeverityLevel.CRITICAL)
     public void testEditJustCreatedTest(){
         //GENERATE USER
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -78,6 +82,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @DisplayName("Attempt to edit user without authentication")
     @Description("Generate a user and try to edit user data without authentication; verify that the operation is forbidden or fails.")
+    @Severity(SeverityLevel.CRITICAL)
     public void testEditUserWithoutAuth() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 
@@ -107,6 +112,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @DisplayName("Attempt to edit another user's data")
     @Description("Create two users, login as the second, and try to edit the first user's data; only the correct user should be able to edit their own data.")
+    @Severity(SeverityLevel.CRITICAL)
     public void testEditUserWithOtherUser() {
         // Создаем первого пользователя
         Map<String, String> userData1 = DataGenerator.getRegistrationData();
@@ -161,6 +167,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @DisplayName("Attempt to change email to invalid format")
     @Description("Generate and login as a user, then try to change email to an invalid format without '@'. Verify that validation fails.")
+    @Severity(SeverityLevel.NORMAL)
     public void testChangeEmailWithoutAtSymbol() {
 
         Map<String, String> userData = DataGenerator.getRegistrationData();
@@ -203,6 +210,7 @@ public class UserEditTest extends BaseTestCase {
     @Test
     @DisplayName("Edit first name to a single character")
     @Description("Create and login as a user, then attempt to set first name to a single character indicating minimum length validation.")
+    @Severity(SeverityLevel.NORMAL)
     public void testEditFirstNameToOneSymbol() {
         Map<String, String> userData = DataGenerator.getRegistrationData();
 

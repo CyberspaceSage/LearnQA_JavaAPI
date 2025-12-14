@@ -2,6 +2,7 @@ package Lesson_4.tests;
 
 import Lesson_4.lib.Assertions;
 import Lesson_4.lib.BaseTestCase;
+import io.qameta.allure.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -13,13 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import Lesson_4.lib.ApiCoreRequests;
-import io.qameta.allure.Description;
-import io.qameta.allure.Epic;
-import io.qameta.allure.Feature;
 import org.junit.jupiter.api.DisplayName;
 
 @Epic("Authorisation cases")
 @Feature("Authorisation")
+@Owner("TestAutomationEngineer") // Полезно знать, кто ответственный за данный тест.
 public class UserAuthTest extends BaseTestCase {
 
     String cookie;
@@ -28,6 +27,8 @@ public class UserAuthTest extends BaseTestCase {
     private final ApiCoreRequests apiCoreRequests = new ApiCoreRequests();
 
     @BeforeEach
+    @Description("Setup authentication data for each test") // Добавил сюда этот тег, чтобы поимать для чего данные подготавливаются
+    @Step("Login user before each test") // Для быстрого понимания, какие данные в даном шаге вводим
     public void loginUser(){
         Map<String, String> authData = new HashMap<>();
         authData.put("email", "vinkotov@example.com");
@@ -45,6 +46,7 @@ public class UserAuthTest extends BaseTestCase {
     @Test
     @Description ("This test successfully authorize user by email and password")
     @DisplayName("Test positive auth user")
+    @Severity(SeverityLevel.CRITICAL)  // Наобходимо знать уроверь критичности теста
     public void testAuthUser() {
 
         Response responseCheckAuth = apiCoreRequests
@@ -58,6 +60,7 @@ public class UserAuthTest extends BaseTestCase {
     }
     @Description("This test checks authorisation status w/o sending auth cookie or token")
     @DisplayName("Test negative auth user")
+    @Severity(SeverityLevel.NORMAL) // Наобходимо знать уроверь критичности теста
     @ParameterizedTest
     @ValueSource(strings = {"cookie", "headers"})
     public void testNegativeAuthUser(String condition){
